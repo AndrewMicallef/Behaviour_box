@@ -128,13 +128,6 @@ running trials a lot easier.
 
 The script runs on the command line. The
 
-To install numpy follow the instructions at http://www.lfd.uci.edu/~gohlke/pythonlibs/
-I used version 1.11.2+mkl for this, however the Chris Gohlke doesn't seem to
-archive older versions. TODO: test upgrading numpy.
-
-`pip install pandas==0.19.0 pyserial==2.7 Colorama==0.3.7 sounddevice==0.35`
-
-
 call signature
 ```
 usage: SerialControl.py [-h] [-af] [--trials [TRIALS [TRIALS ...]]]

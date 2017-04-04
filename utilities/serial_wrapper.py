@@ -7,35 +7,32 @@ from numerical import *
 
 def timenow():
     """provides the current time string in the form `HH:MM:SS`"""
-    return datetime.datetime.now().time().strftime('%H:%M:%S')      
+    return datetime.datetime.now().time().strftime('%H:%M:%S')
 
 
 def init_serialport(port, logfile = None, ID = None):
     """
-    Open communications with the arduino;
-    quits the program if no communications are 
-    found on port.
-    
-    If there are communications the script
-    waits 500 ms then reads all incoming
-    lines from the Serial port. These two
-    lines include the arduino code version 
-    and a string that says the arduino is online
+    Open communications with the arduino; quits the program if no
+    communications are found on port.
+
+    If there are communications the script waits 500 ms then reads all
+    incoming lines from the Serial port. These two lines include the arduino
+    code version and a string that says the arduino is online
     """
-    
+
     ser = serial.Serial()
     ser.baudrate = 115200
     ser.timeout = 1
     ser.port = port
 
-    try: 
+    try:
         ser.open()
         print colour("\nContact", style = (fGREEN, sBRIGHT))
-        
-    except serial.serialutil.SerialException: 
+
+    except serial.serialutil.SerialException:
         print colour("No communications on %s" %port,  style = (fRED, sBRIGHT))
         sys.exit(0)
-    
+
     #IDLE while Arduino performs it's setup functions
     print "AWAITING ARDUINO: "
     _ = 0
@@ -44,11 +41,11 @@ def init_serialport(port, logfile = None, ID = None):
             print "-"*int(_/10000),"\r",
         _ += 1
     print "\nARDUINO ONLINE"
-    
+
     # Buffer for 500 ms to let Arduino finish it's setup
     time.sleep(.5)
     # Log the debug info for the setup
-    while ser.inWaiting(): 
+    while ser.inWaiting():
         Serial_monitor(ser, logfile, True, ID = ID)
 
     return ser
@@ -62,14 +59,14 @@ def Serial_monitor(ser, logfile, show = True, ID = None, verbose = None):
     if line:
 
         fmt_line = "%s,%s" %(line.strip(), timenow())
-        if line.startswith("\t#"): 
+        if line.startswith("\t#"):
             fmt_line = "#" + fmt_line
             if verbose: print colour(fmt_line, style = (fCYAN, sBRIGHT))
-        if not line.startswith("-"): 
+        if not line.startswith("-"):
             #this adds a series of spaces to inset values in the log
-            fmt_line = 4*' ' + fmt_line 
-        
-        elif show: 
+            fmt_line = 4*' ' + fmt_line
+
+        elif show:
             print colour("%s\t%s" %(timenow(), ID), style = (fWHITE,)),
             print colour(line.strip(), style = (fYELLOW, sBRIGHT))
 
@@ -78,7 +75,7 @@ def Serial_monitor(ser, logfile, show = True, ID = None, verbose = None):
 
     return line
 
-def Continuous_monitor_arduino(ser, end_trial_msg = "- Status: Ready", 
+def Continuous_monitor_arduino(ser, end_trial_msg = "- Status: Ready",
                         sep = ':',
                         debug_flags = (("#", "\t#", "- ")),
                         ID = None,
@@ -92,7 +89,7 @@ def Continuous_monitor_arduino(ser, end_trial_msg = "- Status: Ready",
         messages that are not preceded by debug_flags are stored in a
         dictionary which is returned by this function.
         '''
-        
+
         line = Serial_monitor(ser, logfile, False, ID = ID, verbose = verbose)
         trial_dict = {}
         while line.strip() != end_trial_msg:
@@ -102,33 +99,33 @@ def Continuous_monitor_arduino(ser, end_trial_msg = "- Status: Ready",
                 if not line.startswith(debug_flags):
                     var, val = line.strip().split(sep)
                     trial_dict[var] = num(val)
-        
+
         return trial_dict
 
 def update_bbox(ser, params, logfile, trial_df = {}, ID = None, verbose = None):
     """
     Communicates the contents of the dict `params` through
-    the serial communications port. 
-    
+    the serial communications port.
+
     data is sent in the form: `parmas[key] = value`  --> `key:value`
-    
-    trail_df dictionary is updated to include the parameters 
+
+    trail_df dictionary is updated to include the parameters
     received from the arduino
     """
     write_out_config(params, ID)
-    
+
     for name, param in params.iteritems():
-    
+
         print fYELLOW, sBRIGHT, name[:2], "\r",
         ser.writelines("%s:%s" %(name, param))
         if verbose: print "%s:%s" %(name, param)
-        
+
         time.sleep(0.1)
-        
+
         while ser.inWaiting():
 
             line = Serial_monitor(ser, logfile, False, ID = ID, verbose = verbose)[:-1]
-            
+
             if line[:2] not in ("\t#", "- "):
                 var, val = line.strip().split(":")
                 trial_df[var] = num(val)
