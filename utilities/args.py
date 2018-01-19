@@ -41,13 +41,13 @@ kwargs = {
                     },
 
     ('-lt', '--lickThres', ) : {
-                    'default' : 2,
+                    'default' : 1.6,
                     'type' : float,
                     'help' : 'set `lickThres` in arduino',
                     },
 
     ('-lc', '--lcount', ) : {
-                    'default' : 2,
+                    'default' : 3,
                     'type' : int,
                     'help' : 'set `minlickCount` in arduino'
                     },
@@ -59,19 +59,19 @@ kwargs = {
                     },
 
     ('-td', '--trialDur', ) : {
-                    'default' : 10,
+                    'default' : 7,
                     'type' : float,
                     'help' : 'set minimum trial duration in seconds'
                     },
 
     ('--t_stimONSET',) : {
-                    'default' : 4000,
+                    'default' : 3000,
                     'type' : int,
                     'help' : 'sets the time after trigger to run the first stimulus'
                     },
 
     ('-rdel', '--t_rDELAY', ) : {
-                    'default' : 1000,
+                    'default' : 0,
                     'type' : int,
                     'help' : 'set start time of reward epoch in ms'
                     },
@@ -105,7 +105,7 @@ kwargs = {
 
     ('--ITI', ) : {
                     'nargs' : 2,
-                    'default' : [3,5],
+                    'default' : [2,7],
                     'type' : float,
                     'help' : "an interval for randomising between trials",
                     },
@@ -119,7 +119,7 @@ kwargs = {
 
     ('-ratio', ) : {
                     'nargs' : 3,
-                    'default' : [1,1,0],
+                    'default' : [5,1,0],
                     'type' : int,
                     'help' : "number of go, nogo, and blank trials respectively",
                     },
@@ -135,10 +135,7 @@ kwargs = {
                     },
 
     ('--datapath', ) : {
-                    'default' : r"R:\Dani\test_behavior_box",
-                    'help' : "path to save data to, "
-                            "by default is "
-                            r"R:\Dani\test_behavior_box\%%YY%%MM%%DD",
+                    'default' : "C:\DATA\Dani\default_bbox_folder",
                     },
     ('-af', '--audio') :{
                     'action' : 'store_true',
@@ -148,7 +145,7 @@ kwargs = {
                     },
 
     ("--port", ) : {
-                    'default' : "COM5",
+                    'default' : "COM10",
                     'help' : "port that the Arduino is connected to",
                     },
 }

@@ -48,9 +48,10 @@ bool deliver_reward(bool water) {
         duration defined by waterVol */
     if (water){
         digitalWrite(waterPort, HIGH);
+        conditional_tone(5000, 100);
         delay(waterVol);
         digitalWrite(waterPort, LOW);
-        conditional_tone(5000, 100);
+        //conditional_tone(5000, 100);  //moved after water pin high
     }
 
     if (verbose) {
@@ -84,7 +85,7 @@ int Timeout(unsigned long wait, int depth) {
                 // don't record more than a couple of timeouts
                 digitalWrite(bulbTrig, LOW);
             }
-            if (depth < 10) {
+            if (depth < 1) {
                 depth ++;
                 depth = Timeout(wait, depth);
                 break;
@@ -191,18 +192,29 @@ int TrialStimulus() {
             return count;
         }
         //flutter code HERE
-        if (frequency == 200) { // do flutter 1 for 500ms
+        if (frequency == 200) { // do flutter 1 for 500ms (Go trial) (200Hz)
 
-          digitalWrite(stimulusPin, HIGH);
-          delay(500);
-          digitalWrite(stimulusPin,LOW);
+          int high_in_millisecond = 1;  // how long 5V is sent (in ms)
+          int low_in_millisecond = 4; // how long 0V is sent (in ms)
+          int nb_of_iterations = 100; // nb of pulse repetition
+
+                for (int i=0; i < nb_of_iterations; i++){
+                    digitalWrite(stimulusPin, HIGH);
+                    delay(high_in_millisecond);
+                    digitalWrite(stimulusPin, LOW);
+                    delay(low_in_millisecond);
+              }
          
         }
 
-        else if (frequency == 20) {// do flutter 2 for 500ms
+        else if (frequency == 20) {// do flutter 2 for 500ms (No Go trial) (50Hz atm)
 
-          int high_in_millisecond = 15;  // how long 5V is sent (in ms)
-          int low_in_millisecond = 5; // how long 0V is sent (in ms)
+//          digitalWrite(stimulusPin, HIGH);
+//          delay(200);
+//          digitalWrite(stimulusPin,LOW);
+                   
+          int high_in_millisecond = 1;  // how long 5V is sent (in ms)
+          int low_in_millisecond = 19; // how long 0V is sent (in ms)
           int nb_of_iterations = 25; // nb of pulse repetition
 
                 for (int i=0; i < nb_of_iterations; i++){

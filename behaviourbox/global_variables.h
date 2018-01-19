@@ -5,7 +5,8 @@
 
 const byte recTrig = 3;           // triggers ITC-18
 const byte bulbTrig = 4;          // Bulb mode trigger for ThorImage
-const byte stimulusPin = 5;       // digital pin 3 control whisker stimulation
+const byte stimulusPin = 5;       // digital pin 5 control forepaw freq1
+      
 const byte buzzerPin = 6;         // punishment buzzer
 const byte speakerPin = 7;        // reward / cue tone
 const byte statusLED = 13;        // led connected to digital pin 13

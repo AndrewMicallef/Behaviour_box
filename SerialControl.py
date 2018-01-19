@@ -40,7 +40,6 @@ trials = args.trials
 #----- shared paramaters -----
 lickThres = int((args.lickThres/5)*1024)
 mode = args.mode
-punish = args.punish
 timeout = args.timeout
 lcount = args.lcount
 noLick = args.noLick
@@ -76,7 +75,6 @@ def menu():
     if not m.kbhit():
         return {}
 
-    global punish
     global lickThres
     global lcount
     global mode
@@ -127,14 +125,6 @@ def menu():
                 frequency = frequency
                 print "frequency:\t%s\r" %frequency,
 
-
-            # Toggle punishment
-            elif c in ("P", "p", "\x10"):
-                punish = not punish
-                #noLick = args.noLick if punish else 0
-                print "Punish for wrong lick:\t%s" %punish
-                with open(logfile, 'a') as log:
-                    log.write("Punish for wrong lick:\t%s\n" %punish)
 
             # adjust the no lick period
             elif c in (":", ";"):
@@ -233,12 +223,11 @@ def menu():
                 print "SPACE or ENTER to unpause"
 
     params = {
-           'break_wrongChoice'         :    int(punish) if lcount > 0 else 0, # don't punish the animal if not counting licks
            'lickThres'                 :    lickThres,
            'minlickCount'              :    lcount,
            'mode'                      :    mode,
            't_noLickPer'               :    noLick,
-           'timeout'                   :    int(timeout),
+           'timeout'                   :    int(timeout) * 1000,  # convert this muddafucka to millis
            'frequency'                 :    frequency,
            'trialType'                 :    'N' if frequency == 20 else 'G',
     }
@@ -506,11 +495,10 @@ try:
         params = {
             'mode'              : mode,
             'lickThres'         : lickThres,
-            'break_wrongChoice' : int(punish) if lcount > 0 else 0,   #Converts to binary
             'punish_tone'       : int(0),
             'minlickCount'      : lcount,
             't_noLickPer'       : noLick,
-            'timeout'           : timeout,                            #Converts back to millis
+            'timeout'           : timeout * 1000,                            #Converts back to millis
             't_stimONSET'       : t_stimONSET,
             't_rewardDEL'       : t_rewardDEL,
             't_rewardDUR'       : t_rewardDUR,

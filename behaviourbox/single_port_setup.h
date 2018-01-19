@@ -67,8 +67,9 @@ char runTrial() {
     
     ActiveDelay(t_rewardDEL, false);
     
-    conditional_tone(7000, 200);
-    ActiveDelay(200, false);
+    //ActiveDelay(200, false);
+    //conditional_tone(5000, 200);
+    
     
     t = t_since(t_init);
     post_count = ActiveDelay(t_rewardDUR, lickTrigReward);
@@ -91,6 +92,7 @@ char runTrial() {
         else if (post_count >= minlickCount) {
             response = 'H';
             deliver_reward(1);
+            
         }
         else {
             response = '-';
@@ -105,6 +107,7 @@ char runTrial() {
 
             if (timeout) {
                 N_to = Timeout(timeout); //count the number of timeouts
+                
                 Serial.print("\tN_timeouts:");
                 Serial.println(N_to);
             }
@@ -153,7 +156,7 @@ void Habituation(){
 
     // Check the lick sensor
     if (senseLick()) {
-
+        
         /* 
         1. Determine the appropriate stimulus
         2. set active port 
@@ -168,8 +171,10 @@ void Habituation(){
         */
 
         // stim0, stim1, reward...
+       
         TrialStimulus();
         deliver_reward(1);
+        
 
         ActiveDelay(3500u, false);
 
@@ -184,5 +189,6 @@ void Habituation(){
         Serial.println(int(reward_count));
 
         Serial.println("-- Status: Ready --");
+      
     }
 }

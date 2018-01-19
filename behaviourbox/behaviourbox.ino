@@ -32,6 +32,7 @@ void setup (){
     pinMode(waterPort, OUTPUT);
     pinMode(buzzerPin, OUTPUT);
     pinMode(stimulusPin, OUTPUT);
+   
     pinMode(speakerPin, OUTPUT);
     
 
