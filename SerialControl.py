@@ -85,7 +85,6 @@ def menu():
     global timeout
     global t_rDELAY
     global t_rDUR
-    global frequency
     paused = True
 
     while paused:
@@ -110,21 +109,6 @@ def menu():
                 with open(logfile, 'a') as log:
                     log.write("Comment:\t%s\n" %comment)
                 print "Choose...\r",
-
-            #leftkey
-            elif c in ('\xe0K',):
-                frequency = 20
-                print "frequency:\t%s\r" %frequency,
-
-            # right key
-            elif c in ('\xe0M',):
-                frequency = 200
-                print "frequency:\t%s\r" %frequency,
-
-            elif c in ('\xe0P', '\xe0H'):
-                frequency = frequency
-                print "frequency:\t%s\r" %frequency,
-
 
             # adjust the no lick period
             elif c in (":", ";"):
@@ -228,8 +212,6 @@ def menu():
            'mode'                      :    mode,
            't_noLickPer'               :    noLick,
            'timeout'                   :    int(timeout) * 1000,  # convert this muddafucka to millis
-           'frequency'                 :    frequency,
-           'trialType'                 :    'N' if frequency == 20 else 'G',
     }
 
     return update_bbox(ser, params, logfile, trial_df)
