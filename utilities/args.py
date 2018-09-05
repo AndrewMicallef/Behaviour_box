@@ -41,7 +41,7 @@ kwargs = {
                     },
 
     ('-lt', '--lickThres', ) : {
-                    'default' : 1.6,
+                    'default' : 2,
                     'type' : float,
                     'help' : 'set `lickThres` in arduino',
                     },
@@ -105,7 +105,7 @@ kwargs = {
 
     ('--ITI', ) : {
                     'nargs' : 2,
-                    'default' : [2,7],
+                    'default' : [5,7],
                     'type' : float,
                     'help' : "an interval for randomising between trials",
                     },

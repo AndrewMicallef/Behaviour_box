@@ -102,7 +102,8 @@ char runTrial() {
     else if (trialType == 'N') {
         if (post_count >= minlickCount) {
             response = 'f';
-            punish(200);
+ 
+            punish(600);
             deliver_reward(0);
 
             if (timeout) {

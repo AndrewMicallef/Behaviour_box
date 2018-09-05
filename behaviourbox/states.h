@@ -191,47 +191,50 @@ int TrialStimulus() {
             Serial.println(t);
             return count;
         }
-        //flutter code HERE
-        if (frequency == 200) { // do flutter 1 for 500ms (Go trial) (200Hz)
+    }
+    //flutter code HERE
+    if (frequency == 200) { // do flutter 1 for 500ms (Go trial) (200Hz)
 
-          int high_in_millisecond = 1;  // how long 5V is sent (in ms)
-          int low_in_millisecond = 4; // how long 0V is sent (in ms)
-          int nb_of_iterations = 100; // nb of pulse repetition
+      int high_in_millisecond = 1;  // how long 5V is sent (in ms)
+      int low_in_millisecond = 4; // how long 0V is sent (in ms)
+      int nb_of_iterations = 100; // nb of pulse repetition
 
-                for (int i=0; i < nb_of_iterations; i++){
-                    digitalWrite(stimulusPin, HIGH);
-                    delay(high_in_millisecond);
-                    digitalWrite(stimulusPin, LOW);
-                    delay(low_in_millisecond);
-              }
-         
+          for (int i=0; i < nb_of_iterations; i++){
+              digitalWrite(stimulusPin, HIGH);
+              delay(high_in_millisecond);
+              digitalWrite(stimulusPin, LOW);
+              delay(low_in_millisecond);
         }
+     
+    }
+    else if (frequency == 20) {// do flutter 2 for 500ms (No Go trial) (20Hz atm)
 
-        else if (frequency == 20) {// do flutter 2 for 500ms (No Go trial) (50Hz atm)
+        int high_in_millisecond = 0;  // how long 5V is sent (in ms)
+        int low_in_millisecond = 0; // how long 0V is sent (in ms)
+        int nb_of_iterations = 0; // nb of pulse repetition
 
-//          digitalWrite(stimulusPin, HIGH);
-//          delay(200);
-//          digitalWrite(stimulusPin,LOW);
-                   
-          int high_in_millisecond = 1;  // how long 5V is sent (in ms)
-          int low_in_millisecond = 19; // how long 0V is sent (in ms)
-          int nb_of_iterations = 25; // nb of pulse repetition
 
-                for (int i=0; i < nb_of_iterations; i++){
-                    digitalWrite(stimulusPin, HIGH);
-                    delay(high_in_millisecond);
-                    digitalWrite(stimulusPin, LOW);
-                    delay(low_in_millisecond);
-              }
+//        tone(speakerPin, 1000, 500);
+        delay(500);
+//        digitalWrite(speakerPin, HIGH);
+//        delay(500);
+//        digitalWrite(speakerPin, LOW);
+       
+        for (int i=0; i < nb_of_iterations; i++){
+            digitalWrite(stimulusPin, HIGH);
+            delay(high_in_millisecond);
+            digitalWrite(stimulusPin, LOW);
+            delay(low_in_millisecond);
+          }
 
-        }
+    }
     if (verbose) {
         Serial.print("#Exit `TrialStimulus`:\t");
         Serial.println(t);
     }
     return count;
 }
-}
+
 
 void conditional_tone(int frequency, int duration) {
     // wrapper function so I don't need to put a billion if statements
