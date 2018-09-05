@@ -40,39 +40,50 @@ char runTrial() {
     pre_count1 += ActiveDelay(t_stimONSET - t, (t_noLickPer>0));
     t = t_since(t_init);
   
-
     if ((pre_count1>0) and t_noLickPer){
 
-        response = 'e';
-
-        Serial.print("\tresponse:");
-        Serial.println(response);
-
+        Serial.println("\tresponse:e");
         Serial.println("\tpost_count:nan");
         Serial.println("\tpre_count:nan");
         Serial.println("\trew_count:nan");
         Serial.println("\tfrequency:nan");
 
-        return response;
+        return 'e';
     }
     
     pre_count = pre_count0+pre_count1;
 
+    // BEFORE THE STIMULUS ------------------------------------------------------
     t = t_since(t_init);
     
+    if (trialType == 'G') {
+      digitalWrite(stimulusPin, HIGH);
+      delay(10);
+      digitalWrite(stimulusPin, LOW);
+    }
     
-    
-    TrialStimulus();
     t = t_since(t_init);
     
-    ActiveDelay(t_rewardDEL, false);
+    if (ActiveDelay(500 + t_rewardDEL, true)) {
+        
+        Serial.println("\tresponse:e");
+        Serial.println("\tpost_count:nan");
+        Serial.println("\tpre_count:nan");
+        Serial.println("\trew_count:nan");
+        Serial.println("\tfrequency:nan");
+        return 'e';
+    }    
+    // AFTER THE STIMULUS --------------------------------------------------------
     
-    //ActiveDelay(200, false);
-    //conditional_tone(5000, 200);
+    // AFTER THE DELAY -----------------------------------------------------------
     
+    // RESPONSE PERIOD -----------------------------------------------------------
+
+    // REWARD PERIOD -------------------------------------------------------------
     
     t = t_since(t_init);
     post_count = ActiveDelay(t_rewardDUR, lickTrigReward);
+    
     
     if ((t_since(t_init) - t) < t_rewardDUR) {
       // keeps counting even if the reward was triggered already
@@ -83,7 +94,7 @@ char runTrial() {
     
     
     
-    
+    // POST TRIAL COMMS
     
     if (trialType == 'G'){
         if (response) {

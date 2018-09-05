@@ -173,65 +173,7 @@ int count_responses(int duration, bool lickTrig) {
 }
 
 int TrialStimulus() {
-
-    int t_local = millis();
-    int t = t_since(t_local);
     int count = 0;
-
-    // TODO this should be abstracted
-
-    if (verbose) {
-        // TODO make verbosity a scale instead of Boolean
-        Serial.print("#Enter `TrialStimulus`:\t");
-        Serial.println(t_since(t_init));
-        Serial.print("#\tfrequency:\t");
-        Serial.println(frequency);
-        if (not frequency){
-            Serial.print("#Exit `TrialStimulus`:\t");
-            Serial.println(t);
-            return count;
-        }
-    }
-    //flutter code HERE
-    if (frequency == 200) { // do flutter 1 for 500ms (Go trial) (200Hz)
-
-      int high_in_millisecond = 1;  // how long 5V is sent (in ms)
-      int low_in_millisecond = 4; // how long 0V is sent (in ms)
-      int nb_of_iterations = 100; // nb of pulse repetition
-
-          for (int i=0; i < nb_of_iterations; i++){
-              digitalWrite(stimulusPin, HIGH);
-              delay(high_in_millisecond);
-              digitalWrite(stimulusPin, LOW);
-              delay(low_in_millisecond);
-        }
-     
-    }
-    else if (frequency == 20) {// do flutter 2 for 500ms (No Go trial) (20Hz atm)
-
-        int high_in_millisecond = 0;  // how long 5V is sent (in ms)
-        int low_in_millisecond = 0; // how long 0V is sent (in ms)
-        int nb_of_iterations = 0; // nb of pulse repetition
-
-
-//        tone(speakerPin, 1000, 500);
-        delay(500);
-//        digitalWrite(speakerPin, HIGH);
-//        delay(500);
-//        digitalWrite(speakerPin, LOW);
-       
-        for (int i=0; i < nb_of_iterations; i++){
-            digitalWrite(stimulusPin, HIGH);
-            delay(high_in_millisecond);
-            digitalWrite(stimulusPin, LOW);
-            delay(low_in_millisecond);
-          }
-
-    }
-    if (verbose) {
-        Serial.print("#Exit `TrialStimulus`:\t");
-        Serial.println(t);
-    }
     return count;
 }
 
